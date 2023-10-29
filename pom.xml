@@ -29,6 +29,30 @@
 		<module>web-app</module>
 	</modules>
 
+	<!-- External repositories -->
+	<!-- <repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories> -->
+
+	<!-- External plugin repositories -->
+	<!-- <pluginRepositories>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories> -->
+
 	<!-- Project properties -->
 	<properties>
 
@@ -39,6 +63,10 @@
 
 		<!-- Apache commons -->
 		<apache.commons-lang.version>3.14.0</apache.commons-lang.version>
+
+		<!-- Frameworks -->
+		<spring.framework.version>6.1.0</spring.framework.version>
+		<spring.security.version>6.2.0</spring.security.version>
 
 		<!-- Serialization -->
 		<jackson.version>2.16.0</jackson.version>
@@ -51,11 +79,21 @@
 		<!-- Persistence -->
 		<hibernate.version>6.4.0.Final</hibernate.version>
 
+		<!-- Testing -->
+		<junit.version>5.10.1</junit.version>
+
+		<!-- Application servers -->
+		<apache.tomcat.version>10.1.15</apache.tomcat.version>
+
 		<!-- Spring Boot overrides -->
 		<log4j2.version>${log4j.version}</log4j2.version>
 		<commons-lang3.version>${apache.commons-lang.version}</commons-lang3.version>
+		<spring-framework.version>${spring.framework.version}</spring-framework.version>
+		<spring-security.version>${spring.security.version}</spring-security.version>
 		<jackson-bom.version>${jackson.version}</jackson-bom.version>
 		<postgresql.version>${postgresql.jdbc.version}</postgresql.version>
+		<junit-jupiter.version>${junit.version}</junit-jupiter.version>
+		<tomcat.version>${apache.tomcat.version}</tomcat.version>
 
 		<!-- Plugins -->
 		<maven.compiler-plugin.version>3.11.0</maven.compiler-plugin.version>
