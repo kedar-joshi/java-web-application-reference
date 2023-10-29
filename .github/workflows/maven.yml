@@ -1,0 +1,35 @@
+name: Maven
+
+on:
+  push:
+    branches: [ master, features/staging, features/development, features/next ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        jdk_version: [ '21', '22' ]
+
+    steps:
+      - name: Download OpenJDK ${{ matrix.jdk_version }}
+        id: download
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: ${{ matrix.jdk_version }}
+          install: false
+
+      - uses: actions/checkout@v4
+      - name: Install OpenJDK ${{ matrix.jdk_version }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: jdkfile
+          jdkFile: ${{ steps.download.outputs.archive }}
+          java-version: ${{ steps.download.outputs.version }}
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn -B verify --file pom.xml
