@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="60">
+
+	<!-- Logging properties -->
+	<Properties>
+		<Property name="CATALINA_HOME">.</Property>
+		<Property name="Log.File">${env:CATALINA_HOME}/logs/@project.artifactId@.log</Property>
+		<Property name="Log.Pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{45} : %msg%n</Property>
+	</Properties>
+
+	<!-- Appender configuration -->
+	<Appenders>
+
+		<!-- Rolling file appender -->
+		<RollingFile name="File" fileName="${Log.File}" filePattern="${Log.File}.%d{yyyy-MM-dd}.%i.gz">
+			<PatternLayout>
+				<Pattern>${Log.Pattern}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="500 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="100" />
+		</RollingFile>
+
+	</Appenders>
+
+	<!-- Logger configuration -->
+	<Loggers>
+
+		<AsyncRoot level="INFO">
+			<AppenderRef ref="File" />
+		</AsyncRoot>
+
+	</Loggers>
+
+</Configuration>
+
