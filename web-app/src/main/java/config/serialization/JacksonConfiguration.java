@@ -33,12 +33,7 @@ public class JacksonConfiguration
 	@Bean(name = { "objectMapper", "jsonMapper" })
 	public JsonMapper jsonMapper()
 	{
-		final JsonMapper objectMapper = new JsonMapper();
-
-		// Configuring JSON mapper
-		configureMapper(objectMapper);
-
-		return objectMapper;
+		return createJsonMapper();
 	}
 
 	/**
@@ -54,44 +49,56 @@ public class JacksonConfiguration
 	@Bean(name = "xmlMapper")
 	public XmlMapper xmlMapper()
 	{
-		final XmlMapper xmlMapper = new XmlMapper();
-
-		// Configuring XML mapper
-		configureMapper(xmlMapper);
-
-		return xmlMapper;
+		return createXmlMapper();
 	}
 
 	/**
-	 * Provides message converter for JSON.
+	 * Configures message converter for `application/json` and equivalent content types.
 	 *
 	 * @return instance of message converter for JSON.
 	 */
 	@Bean(name = "mappingJackson2HttpMessageConverter")
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter()
 	{
-		final JsonMapper jsonMapper = new JsonMapper();
-
-		// Configuring JSON mapper
-		configureMapper(jsonMapper);
-
-		return new MappingJackson2HttpMessageConverter(jsonMapper);
+		return new MappingJackson2HttpMessageConverter(createJsonMapper());
 	}
 
 	/**
-	 * Provides message converter for XML.
+	 * Configures message converter for `application/xml` and equivalent content types.
 	 *
 	 * @return instance of message converter for XML.
 	 */
 	@Bean("mappingJackson2XmlHttpMessageConverter")
 	public MappingJackson2XmlHttpMessageConverter mappingJackson2XmlHttpMessageConverter()
 	{
-		final XmlMapper xmlMapper = new XmlMapper();
+		return new MappingJackson2XmlHttpMessageConverter(createXmlMapper());
+	}
+
+	/**
+	 * Creates instance of {@link JsonMapper} with application defaults.
+	 *
+	 * @return fully configured instance of {@link JsonMapper}.
+	 */
+	private static JsonMapper createJsonMapper()
+	{
+		// Configuring JSON mapper
+		return configureMapper(new JsonMapper());
+	}
+
+	/**
+	 * Creates instance of {@link XmlMapper} with application defaults.
+	 *
+	 * @return fully configured instance of {@link XmlMapper}.
+	 */
+	private static XmlMapper createXmlMapper()
+	{
+		final XmlMapper xmlMapper = configureMapper(new XmlMapper());
 
 		// Configuring XML mapper
-		configureMapper(xmlMapper);
+		xmlMapper.registerModule(new JacksonXmlModule()); // Enables serialization to XML
+		xmlMapper.registerModule(new JakartaXmlBindAnnotationModule()); // Enables usage of XML-binding annotations for XML and JSON serialization
 
-		return new MappingJackson2XmlHttpMessageConverter(xmlMapper);
+		return xmlMapper;
 	}
 
 	/**
@@ -99,7 +106,7 @@ public class JacksonConfiguration
 	 *
 	 * @param objectMapper instance to be configured.
 	 */
-	private static void configureMapper(final ObjectMapper objectMapper)
+	private static <T extends ObjectMapper> T configureMapper(final T objectMapper)
 	{
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); // Enables inclusion of only non-fields in serialized content
 
@@ -107,11 +114,10 @@ public class JacksonConfiguration
 		objectMapper.disable(SerializationFeature.INDENT_OUTPUT); // Disabling output formatting
 		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // Disabling generating dates as millisecond values
 
-		objectMapper.registerModule(new JacksonXmlModule()); // Enables serialization to XML
-		objectMapper.registerModule(new JakartaXmlBindAnnotationModule()); // Enables usage of XML binding annotations for XML and JSON serialization
-
 		objectMapper.registerModules(new Hibernate5JakartaModule()); // Enables support for serializing lazy-loaded hibernate entities
-		objectMapper.registerModules(new Jdk8Module()); // Enables support for JDK 8 data types e.g. Optional
+		objectMapper.registerModules(new Jdk8Module()); // Enables support for JDK 8 data types, e.g. Optional
 		objectMapper.registerModule(new JavaTimeModule()); // Enables serialization for classes from Java 8 'java.time' package
+
+		return objectMapper;
 	}
 }
