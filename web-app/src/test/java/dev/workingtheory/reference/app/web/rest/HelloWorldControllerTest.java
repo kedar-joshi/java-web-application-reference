@@ -2,6 +2,7 @@ package dev.workingtheory.reference.app.web.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -10,7 +11,7 @@ import static dev.workingtheory.reference.app.support.TestHelpers.IS_NOT_BLANK_M
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(HelloWorldController.class)
+@WebMvcTest(value = HelloWorldController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 public class HelloWorldControllerTest
 {
 	@Autowired
