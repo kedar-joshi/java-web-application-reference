@@ -43,10 +43,14 @@
 		<!-- Serialization -->
 		<jackson.version>2.16.0</jackson.version>
 
+		<!-- Database -->
+		<postgresql.jdbc.version>42.7.0</postgresql.jdbc.version>
+
 		<!-- Spring Boot overrides -->
 		<log4j2.version>${log4j.version}</log4j2.version>
 		<commons-lang3.version>${apache.commons-lang.version}</commons-lang3.version>
 		<jackson-bom.version>${jackson.version}</jackson-bom.version>
+		<postgresql.version>${postgresql.jdbc.version}</postgresql.version>
 
 		<!-- Plugins -->
 		<maven.compiler-plugin.version>3.11.0</maven.compiler-plugin.version>
