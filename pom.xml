@@ -46,6 +46,7 @@
 		<!-- Database -->
 		<postgresql.jdbc.version>42.7.0</postgresql.jdbc.version>
 		<hikaricp.version>5.1.0</hikaricp.version>
+		<flyway.version>10.1.0</flyway.version>
 
 		<!-- Spring Boot overrides -->
 		<log4j2.version>${log4j.version}</log4j2.version>
@@ -110,6 +111,14 @@
 				<groupId>com.lmax</groupId>
 				<artifactId>disruptor</artifactId>
 				<version>${lmax.version}</version>
+			</dependency>
+
+			<!-- Database -->
+
+			<dependency>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-database-postgresql</artifactId>
+				<version>${flyway.version}</version>
 			</dependency>
 
 		</dependencies>
