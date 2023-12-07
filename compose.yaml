@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=apps'
+      - 'POSTGRES_DB=spring-boot-playground'
+    ports:
+      - '5432:5555'
